@@ -128,9 +128,10 @@ def send_email(index_name, index_size, timestamp):
 """
     sender_email = os.getenv('SENDER_EMAIL_ADDRESS')
     app_password = os.getenv('EMAIL_ADDRESS_APP_PASSWORD')
-
     receiver_email = os.getenv('RECIEVER_EMAIL_ADDRESS')
     subject = "Task 2"
+    email_server = os.getenv('EMAIL_HOST')
+    email_port = os.getenv('EMAIL_PORT')
 
     # Setup the MIME
     msg = MIMEMultipart()
@@ -140,7 +141,7 @@ def send_email(index_name, index_size, timestamp):
     msg.attach(MIMEText(html_content, 'html'))
 
     try:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server = smtplib.SMTP(email_server, email_port)
         server.starttls()
         server.login(sender_email, app_password)  # Log in with app password
         text = msg.as_string()
