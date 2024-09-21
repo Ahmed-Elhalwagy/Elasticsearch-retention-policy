@@ -62,7 +62,7 @@ def forcemerge(index):
     print(f'Status Code: {forcemerge_resposnse.status_code}')
     print("All docs marked as deleted has been completly deleted")
 
-def send_email():
+def send_email(index_name, index_size, timestamp):
     html_sytle="""
         body {
             font-family: Arial, sans-serif;
@@ -158,7 +158,7 @@ def main():
         print('2 Seconds delay')
         time.sleep(2)
         forcemerge(index_name)
-        send_email()
+        send_email(index_name, current_index_size, timestamp)
     
 if __name__ == '__main__':
     main()

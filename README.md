@@ -1,4 +1,4 @@
-This script simply queries the health of a specific index, then deletes all the documents older than 10 minutes and reclaims the disk space. You can edit the age of the documents that should be deleted.
+This script simply queries the health of a specific index, then deletes all old docs and reclaims the disk space. You can edit the age of the documents that should be deleted.
 ***
 Install Required packages
 ```
