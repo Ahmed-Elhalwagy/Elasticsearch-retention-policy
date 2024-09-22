@@ -63,69 +63,14 @@ def forcemerge(index):
     print("All docs marked as deleted has been completly deleted")
 
 def send_email(index_name, index_size, timestamp):
-    html_sytle="""
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-"""
-    html_content = f"""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Page</title>
-    <style>{html_sytle}</style>
-</head>
-<body>
-
-    <h1>Report</h1>
+    html_content = ""
+    with open('email-template.html', 'r') as file:
+        html_content = file.read()
     
-    <table>
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Size (MB)</th>
-                <th>Index Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{timestamp}</td>
-                <td>{index_size}</td>
-                <td>{index_name}</td>
-            </tr>
-        </tbody>
-    </table>
-
-</body>
-</html>
-<
-"""
+    html_content = html_content.replace('{timestamp}', str(timestamp))
+    html_content = html_content.replace('{index_size}', str(index_size))
+    html_content = html_content.replace('{index_name}', index_name)
+    
     sender_email = os.getenv('SENDER_EMAIL_ADDRESS')
     app_password = os.getenv('EMAIL_ADDRESS_APP_PASSWORD')
     receiver_email = os.getenv('RECIEVER_EMAIL_ADDRESS')
@@ -159,7 +104,8 @@ def main():
         print('2 Seconds delay')
         time.sleep(2)
         forcemerge(index_name)
-        send_email(index_name, current_index_size, timestamp)
+    
+    send_email(index_name, current_index_size, timestamp)
     
 if __name__ == '__main__':
     main()
